@@ -32,3 +32,11 @@ git clone https://github.com/seu-usuario/project-meetime.git
 cd project-meetime
 
 ```
+
+## 📽️ Apresentação do Projeto
+
+Abaixo está uma demonstração rápida da interface e comportamento do sistema em tempo real:
+
+<div class="flex items-center">
+  <img src="./aplication.gif" alt="Demonstração" />
+</div>
