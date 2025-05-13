@@ -53,10 +53,19 @@ export class CyclesComponent implements OnInit, OnDestroy {
   }
   protected cycles = signal<Cycle[]>([]);
   private _checkedPriorityHigh = false;
-  controlsMap: { [key: string]: FormControl } = {};
   private _DESTROYER = new Subject<void>();
+  controlsMap: { [key: string]: FormControl } = {};
 
   ngOnInit() {
+    this._initializeCycleControls();
+  }
+
+  ngOnDestroy(): void {
+    this._DESTROYER.next();
+    this._DESTROYER.complete();
+  }
+
+  private _initializeCycleControls() {
     this.cycles().forEach((item, index) => {
       const control = new FormControl(false);
       const isPreSelected =
@@ -86,14 +95,9 @@ export class CyclesComponent implements OnInit, OnDestroy {
     return this.controlsMap[index];
   }
 
-  ngOnDestroy(): void {
-    this._DESTROYER.next();
-    this._DESTROYER.complete();
-  }
-
   onCheckboxChange(index: number, value: boolean) {
     const item = this.cycles()[index];
-    this.itemSelecionado.emit({ ...item, selecionado: value });
+    this.itemSelecionado.emit({ ...item, selected: value });
   }
 
   togglePanelOpen() {

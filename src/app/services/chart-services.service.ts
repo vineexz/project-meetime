@@ -94,14 +94,14 @@ export class ChartServices {
     chartData: ApexAxisChartSeries,
     serieIndex: number,
     dayIndex: number,
-    valor: number
+    value: number
   ): number {
-    const ponto = Number(chartData?.[serieIndex]?.data?.[dayIndex] ?? 0);
-    const novoValor = ponto + Number(valor);
+    const point = Number(chartData?.[serieIndex]?.data?.[dayIndex] ?? 0);
+    const newValue = point + Number(value);
 
-    const valorFinal = novoValor < 0 ? 0 : novoValor;
+    const endValue = newValue < 0 ? 0 : newValue;
 
-    chartData[serieIndex].data[dayIndex] = valorFinal;
-    return valorFinal;
+    chartData[serieIndex].data[dayIndex] = endValue;
+    return endValue;
   }
 }

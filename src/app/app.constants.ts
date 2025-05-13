@@ -1,58 +1,61 @@
 import {
-  BUTONS_TYPE,
-  CHART_TYPE,
-  CYCLE_TYPE,
-  ENTITIES_TYPE,
-  HEADER_TYPE,
-  LABELS_CHART_TYPE,
+  ButtonsType,
+  ChartsType,
+  CycleType,
+  EntitiesType,
+  HeaderType,
+  LabelsChartType,
 } from './app.interface';
 
-export const ENTITIES: ENTITIES_TYPE = {
-  TITLE: 'Entidades à iniciar',
-  SUB_TITLE:
+export const ENTITIES: EntitiesType = {
+  title: 'Entidades à iniciar',
+  subTitle:
     'Após o início, os eventos serão disponibilizados para execução nos dias que estão definidos em seus ciclos.',
-  ICON: 'play_arrow',
-  LABEL_RIGHT: 'Entidades',
-  LABEL_EVENTS: 'Novos eventos para hoje',
-  VALUE_EVENTS: 0,
+  icon: 'play_arrow',
+  labelRight: 'Entidades',
+  labelEvents: 'Novos eventos para hoje',
+  valueEvents: 0,
 };
-export const CYCLES: CYCLE_TYPE = {
-  TITLE: 'Selecione ciclos',
-  TITLE_TABLE: 'Ciclos com entidades disponíveis',
-  SUBTITLE: '(opcional)',
-  PRIORITY: true,
-  DESCRIPTION:
+export const CYCLES: CycleType = {
+  title: 'Selecione ciclos',
+  titleTable: 'Ciclos com entidades disponíveis',
+  subTitle: '(opcional)',
+  priority: true,
+  description:
     'Por padrão as entidades são selecionadas automaticamente de acordo com os ciclos que você participa e suas prioridades.',
 };
-export const CHART: CHART_TYPE = {
-  TYPE: 'bar',
-  COLORS: ['#34D399', '#9CA3AF', '#38BDF8', '#818CF8'],
-  HEIGHT: 400,
-  STACKED: true,
-  SHOW_LEGEND: true,
-  LEGEND_POSITION: 'bottom',
-  LABELS_ENABLE: false,
+export const CHART: ChartsType = {
+  type: 'bar',
+  colors: ['#34D399', '#9CA3AF', '#38BDF8', '#818CF8'],
+  height: 400,
+  stacked: true,
+  showLegend: true,
+  legendPosition: 'bottom',
+  labelsEnable: false,
 };
 
-export const LABELS: LABELS_CHART_TYPE = {
-  TITLE: 'Previsão de eventos futuros',
-  SUB_TITLE:
+export const LABELS: LabelsChartType = {
+  title: 'Previsão de eventos futuros',
+  subTitle:
     'A previsão inclui eventos dos ciclos relacionados às entidades e é atualizada sempre que novas entidades forem iniciadas.',
 };
-export const BUTTONS: BUTONS_TYPE = {
-  CLOSE: { LABEL: 'Fechar', TEXT_COLOR: '#3A3D3C' },
-  INCLUDE: {
-    LABEL: 'Iniciar novas entidades',
-    BACKGROUND: '#00732F',
-    TEXT_COLOR: '#ffffff',
+export const BUTTONS: ButtonsType = {
+  close: { label: 'Fechar', textColor: '#3A3D3C' },
+  include: {
+    label: 'Iniciar novas entidades',
+    backGround: '#00732F',
+    textColor: '#ffffff',
   },
 };
-export const HEADERS: HEADER_TYPE = {
-  CONFIG_CLASS: 'font-semibold text-2xl leading-6',
-  LABEL: 'Iniciar novas Entidades',
-  ICON_NAME: 'close',
+export const HEADERS: HeaderType = {
+  configClass: 'font-semibold text-2xl leading-6',
+  label: 'Iniciar novas Entidades',
+  iconName: 'close',
 };
 
 export const DAYS_LABELS = ['Seg', 'Ter', 'Qua', 'Quin', 'Sex'];
+
+export const DEFAULT_SUNDAY = 0;
+export const DEFAULT_SATURDAY = 0;
 
 export const DAYS_ENUM = [1, 2, 3, 4, 5];

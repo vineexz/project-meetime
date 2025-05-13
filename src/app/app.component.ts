@@ -18,18 +18,21 @@ import {
   BUTTONS,
   CHART,
   CYCLES,
+  DEFAULT_SATURDAY,
+  DEFAULT_SUNDAY,
   ENTITIES,
   HEADERS,
   LABELS,
 } from './app.constants';
 import {
-  BUTONS_TYPE,
-  CHART_TYPE,
-  CYCLE_TYPE,
-  ENTITIES_TYPE,
-  EVENT_CYCLE,
-  HEADER_TYPE,
-  LABELS_CHART_TYPE,
+  ButtonsType,
+  ChartsType,
+  CycleType,
+  EntitiesType,
+  EventCycle,
+  HeaderType,
+  LabelsChartType,
+  StructureType,
 } from './app.interface';
 import { ChartServices } from './services/chart-services.service';
 import { FormServices } from './services/form-services.service';
@@ -49,21 +52,24 @@ import { FormServices } from './services/form-services.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  readonly CONST_ENTITIES: ENTITIES_TYPE = ENTITIES;
-  readonly CONST_CYCLES: CYCLE_TYPE = CYCLES;
-  readonly CONST_CHART: CHART_TYPE = CHART;
-  readonly CONST_LABELS_CHART: LABELS_CHART_TYPE = LABELS;
-  readonly CONST_BUTTONS: BUTONS_TYPE = BUTTONS;
-  readonly CONST_HEADERS: HEADER_TYPE = HEADERS;
+  readonly CONST_ENTITIES: EntitiesType = ENTITIES;
+  readonly CONST_CYCLES: CycleType = CYCLES;
+  readonly CONST_CHART: ChartsType = CHART;
+  readonly CONST_LABELS_CHART: LabelsChartType = LABELS;
+  readonly CONST_BUTTONS: ButtonsType = BUTTONS;
+  readonly CONST_HEADERS: HeaderType = HEADERS;
+
   valueNumberEvents = signal<number>(1);
   cyclosSignal = signal<Cycle[]>([]);
+
   chartData: ApexAxisChartSeries = [];
   chartCategories: string[] = [];
-  chartColors: string[] = this.CONST_CHART.COLORS;
+  chartColors: string[] = this.CONST_CHART.colors;
 
   form = inject(FormServices);
   private _api = inject(ApiService);
   private _chartServices = inject(ChartServices);
+
   private _currentDay!: number;
   private _cyclosUpdate = new Set<string>();
 
@@ -76,7 +82,7 @@ export class AppComponent implements OnInit {
     this._valueChangedEntities();
   }
 
-  onItemSelectedCycles(item: EVENT_CYCLE) {
+  onItemSelectedCycles(item: EventCycle, forceApply = false) {
     if (!item) return;
     const cicloKey = item.name;
 
@@ -84,69 +90,13 @@ export class AppComponent implements OnInit {
 
     const alreadyAdded = this._cyclosUpdate.has(cicloKey);
 
-    if (item.selected && !alreadyAdded) {
-      item.structure.forEach((struct) => {
-        const dayIndex = rotatedDays.findIndex((day) => day === struct.day);
-        if (dayIndex !== -1) {
-          this._chartServices.addIfExists(
-            this.chartData,
-            0,
-            dayIndex,
-            struct.meetings
-          );
-          this._chartServices.addIfExists(
-            this.chartData,
-            1,
-            dayIndex,
-            struct.emails
-          );
-          this._chartServices.addIfExists(
-            this.chartData,
-            2,
-            dayIndex,
-            struct.calls
-          );
-          this._chartServices.addIfExists(
-            this.chartData,
-            3,
-            dayIndex,
-            struct.follows
-          );
-        }
-      });
+    if ((item.selected && !alreadyAdded) || forceApply) {
+      this._applyCycleData(item.structure, rotatedDays, this.chartData, 1);
       this._cyclosUpdate.add(cicloKey);
     }
 
     if (!item.selected && alreadyAdded) {
-      item.structure.forEach((struct) => {
-        const dayIndex = rotatedDays.findIndex((day) => day === struct.day);
-        if (dayIndex !== -1) {
-          this._chartServices.addIfExists(
-            this.chartData,
-            0,
-            dayIndex,
-            -struct.meetings
-          );
-          this._chartServices.addIfExists(
-            this.chartData,
-            1,
-            dayIndex,
-            -struct.emails
-          );
-          this._chartServices.addIfExists(
-            this.chartData,
-            2,
-            dayIndex,
-            -struct.calls
-          );
-          this._chartServices.addIfExists(
-            this.chartData,
-            3,
-            dayIndex,
-            -struct.follows
-          );
-        }
-      });
+      this._applyCycleData(item.structure, rotatedDays, this.chartData, -1);
       this._cyclosUpdate.delete(cicloKey);
     }
     this._updateTotalEventosDoDia();
@@ -159,47 +109,16 @@ export class AppComponent implements OnInit {
     const filteredEvents = this._chartServices.filterEvents(rotatedDays);
     this._updateChartCategories(this._currentDay);
 
-    this.chartData = [
-      {
-        name: 'Meetings',
-        data: [
-          ...rotatedDays.map(
-            (d) =>
-              filteredEvents.find((event) => event.day === d)?.events
-                .meetings || 0
-          ),
-        ],
-      },
-      {
-        name: 'Emails',
-        data: [
-          ...rotatedDays.map(
-            (d) =>
-              filteredEvents.find((event) => event.day === d)?.events.emails ||
-              0
-          ),
-        ],
-      },
-      {
-        name: 'Calls',
-        data: [
-          ...rotatedDays.map(
-            (d) =>
-              filteredEvents.find((event) => event.day === d)?.events.calls || 0
-          ),
-        ],
-      },
-      {
-        name: 'Follows',
-        data: [
-          ...rotatedDays.map(
-            (d) =>
-              filteredEvents.find((event) => event.day === d)?.events.follows ||
-              0
-          ),
-        ],
-      },
-    ];
+    const metricKeys = ['meetings', 'emails', 'calls', 'follows'];
+    const metricLabels = ['Meetings', 'Emails', 'Calls', 'Follows'];
+
+    this.chartData = metricKeys.map((key, index) => ({
+      name: metricLabels[index],
+      data: rotatedDays.map((d) => {
+        const event = filteredEvents.find((e) => e.day === d);
+        return event?.events?.[key as keyof typeof event.events] ?? 0;
+      }),
+    }));
   }
 
   private _updateChartCategories(day: number) {
@@ -213,16 +132,16 @@ export class AppComponent implements OnInit {
   private _valueChangedEntities() {
     this.form.formGroupService.controls.entities.valueChanges
       .pipe(
-        filter((value) => value !== 0),
+        filter((value) => value !== DEFAULT_SUNDAY),
         tap((value) => {
-          if (value === 6) return;
+          if (value === DEFAULT_SATURDAY) return;
           if (value) {
             this._updateChartData(Number(value));
             this._updateChartCategories(Number(value));
             this.cyclosSignal()
               .filter((cycle) => this._cyclosUpdate.has(cycle.name))
               .forEach((cycle) =>
-                this.onItemSelectedCycles({ ...cycle, selected: true })
+                this.onItemSelectedCycles({ ...cycle, selected: true }, true)
               );
             this._updateTotalEventosDoDia();
             this._cdr.detectChanges();
@@ -239,5 +158,42 @@ export class AppComponent implements OnInit {
       this.chartData
     );
     this.valueNumberEvents.update(() => total);
+  }
+
+  private _applyCycleData(
+    structure: StructureType[],
+    rotatedDays: number[],
+    chartData: ApexAxisChartSeries,
+    multiplier: number
+  ): void {
+    structure.forEach((struct) => {
+      const dayIndex = rotatedDays.findIndex((day) => day === struct.day);
+      if (dayIndex === -1) return;
+
+      this._chartServices.addIfExists(
+        chartData,
+        0,
+        dayIndex,
+        multiplier * struct.meetings
+      );
+      this._chartServices.addIfExists(
+        chartData,
+        1,
+        dayIndex,
+        multiplier * struct.emails
+      );
+      this._chartServices.addIfExists(
+        chartData,
+        2,
+        dayIndex,
+        multiplier * struct.calls
+      );
+      this._chartServices.addIfExists(
+        chartData,
+        3,
+        dayIndex,
+        multiplier * struct.follows
+      );
+    });
   }
 }

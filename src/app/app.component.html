@@ -1,26 +1,26 @@
 <div class="flex flex-col min-h-screen">
   <ui-header
-    [configclass]="CONST_HEADERS.CONFIG_CLASS"
-    [labelHeader]="CONST_HEADERS.LABEL"
-    [iconNameHeader]="CONST_HEADERS.ICON_NAME"
+    [configclass]="CONST_HEADERS.configClass"
+    [labelHeader]="CONST_HEADERS.label"
+    [iconNameHeader]="CONST_HEADERS.iconName"
   />
   <section>
     <ui-entities
-      [titleEntities]="CONST_ENTITIES.TITLE"
-      [subtitleEntities]="CONST_ENTITIES.SUB_TITLE"
-      [iconInputEntities]="CONST_ENTITIES.ICON"
-      [labelInputRight]="CONST_ENTITIES.LABEL_RIGHT"
-      [labelEvents]="CONST_ENTITIES.LABEL_EVENTS"
+      [titleEntities]="CONST_ENTITIES.title"
+      [subtitleEntities]="CONST_ENTITIES.subTitle"
+      [iconInputEntities]="CONST_ENTITIES.icon"
+      [labelInputRight]="CONST_ENTITIES.labelRight"
+      [labelEvents]="CONST_ENTITIES.labelEvents"
       [setNumberEvents]="valueNumberEvents"
       [control]="form.formGroupService.controls.entities"
     ></ui-entities>
     <hr class="mx-6" />
     <ui-cycles
-      [title]="CONST_CYCLES.TITLE"
-      [titleTable]="CONST_CYCLES.TITLE_TABLE"
-      [subtitle]="CONST_CYCLES.SUBTITLE"
-      [description]="CONST_CYCLES.DESCRIPTION"
-      [checkedPriorityHigh]="CONST_CYCLES.PRIORITY"
+      [title]="CONST_CYCLES.title"
+      [titleTable]="CONST_CYCLES.titleTable"
+      [subtitle]="CONST_CYCLES.subTitle"
+      [description]="CONST_CYCLES.description"
+      [checkedPriorityHigh]="CONST_CYCLES.priority"
       [setCycles]="cyclosSignal()"
       (itemSelecionado)="onItemSelectedCycles($event)"
     ></ui-cycles>
@@ -29,10 +29,10 @@
       <div class="flex bg-gray-100 p-6 w-full rounded-md gap-16">
         <div class="flex flex-1 flex-col gap-2">
           <h1 class="font-inter font-normal text-xl leading-5">
-            {{ CONST_LABELS_CHART.TITLE }}
+            {{ CONST_LABELS_CHART.title }}
           </h1>
           <h5 class="font-inter font-normal leading-5 text-primary">
-            {{ CONST_LABELS_CHART.SUB_TITLE }}
+            {{ CONST_LABELS_CHART.subTitle }}
           </h5>
         </div>
       </div>
@@ -43,23 +43,23 @@
         [series]="chartData"
         [categories]="chartCategories"
         [colors]="chartColors"
-        [chartType]="CONST_CHART.TYPE"
-        [chartHeight]="CONST_CHART.HEIGHT"
-        [stacked]="CONST_CHART.STACKED"
-        [showLegend]="CONST_CHART.SHOW_LEGEND"
-        [legendPosition]="CONST_CHART.LEGEND_POSITION"
-        [dataLabelsEnabled]="CONST_CHART.LABELS_ENABLE"
+        [chartType]="CONST_CHART.type"
+        [chartHeight]="CONST_CHART.height"
+        [stacked]="CONST_CHART.stacked"
+        [showLegend]="CONST_CHART.showLegend"
+        [legendPosition]="CONST_CHART.legendPosition"
+        [dataLabelsEnabled]="CONST_CHART.labelsEnable"
       ></ui-chart>
     </div>
     <div class="flex justify-end items-center w-full p-6 gap-4">
       <meetime-button
-        [labelButton]="CONST_BUTTONS.CLOSE.LABEL"
-        [textColor]="CONST_BUTTONS.CLOSE.TEXT_COLOR"
+        [labelButton]="CONST_BUTTONS.close.label"
+        [textColor]="CONST_BUTTONS.close.textColor"
       ></meetime-button>
       <meetime-button
-        [labelButton]="CONST_BUTTONS.INCLUDE.LABEL"
-        [colorBackground]="CONST_BUTTONS.INCLUDE.BACKGROUND"
-        [textColor]="CONST_BUTTONS.INCLUDE.TEXT_COLOR"
+        [labelButton]="CONST_BUTTONS.include.label"
+        [colorBackground]="CONST_BUTTONS.include.backGround"
+        [textColor]="CONST_BUTTONS.include.textColor"
       ></meetime-button>
     </div>
   </section>

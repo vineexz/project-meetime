@@ -39,6 +39,10 @@ export class GraphicsChartComponent implements OnChanges {
   chartOptions: ApexOptions = { ...CHART_OPTIONS_MOCK };
 
   ngOnChanges(changes: SimpleChanges): void {
+    this._initializeChartOptions();
+  }
+
+  private _initializeChartOptions() {
     this.chartOptions = {
       ...CHART_OPTIONS_MOCK,
       series: this.series ?? CHART_OPTIONS_MOCK.series,
