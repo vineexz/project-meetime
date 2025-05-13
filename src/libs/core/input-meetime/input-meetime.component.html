@@ -1,0 +1,14 @@
+<input
+  class="flex w-full h-full px-3"
+  [ngClass]="{
+    ipt__invalid: control.invalid && control.touched,
+    ipt__valid: control.valid && control.touched,
+  }"
+  [ngStyle]="style"
+  [formControl]="control"
+  [placeholder]="placeholder"
+  [type]="htmlType"
+  [disabled]="control.disabled"
+  [minlength]="minLength"
+  [maxlength]="maxLength"
+/>

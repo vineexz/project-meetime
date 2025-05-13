@@ -1,0 +1,45 @@
+<div class="flex justify-between items-center w-full p-6">
+  <div class="flex bg-gray-100 p-6 w-full rounded-md gap-16 max-md:flex-col">
+    <div class="flex flex-1 flex-col gap-2">
+      <h1 class="font-inter font-semibold text-xl leading-5">
+        {{ titleEntities }}
+      </h1>
+      <h5 class="font-inter font-normal leading-5 text-primary">
+        {{ subtitleEntities }}
+      </h5>
+    </div>
+    <div class="flex flex-1 flex-col gap-2 items-end">
+      <div class="border rounded h-10 w-3/4 max-lg:w-full">
+        <div class="flex">
+          <div
+            class="flex-none border border-y-0 border-s-0 w-1/4 h-10 bg-grayTransparent flex items-center justify-center"
+          >
+            <mat-icon>{{ iconInputEntities }}</mat-icon>
+          </div>
+          <div class="grow">
+            <meetime-input
+              [htmlType]="'number'"
+              [maxLength]="5"
+              [minLength]="1"
+              [useMin]="true"
+              [control]="control"
+            ></meetime-input>
+          </div>
+          <div
+            class="flex-none border border-y-0 border-s-0 w-1/4 h-10 bg-grayTransparent flex items-center justify-center max-sm:w-3/6"
+          >
+            <h5 class="font-inter text-sm font-normal leading-5 text-primary">
+              {{ labelInputRight }}
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="flex font-inter font-normal leading-5 text-primary">
+        {{ labelEvents }}:&nbsp;
+        <div class="text-dark font-medium">
+          {{ setNumberEvents() }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

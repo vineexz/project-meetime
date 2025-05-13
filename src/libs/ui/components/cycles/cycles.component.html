@@ -1,0 +1,107 @@
+<div class="flex justify-between items-center w-full p-6">
+  <div class="w-full rounded-md overflow-hidden">
+    <div
+      class="flex items-center justify-between cursor-pointer px-4 py-3"
+      (click)="togglePanelOpen()"
+    >
+      <span class="font-inter text-sm font-medium flex items-center gap-1">
+        {{ title }}
+        <span class="text-gray-400 flex items-center gap-1">
+          {{ subtitle }}
+          <mat-icon
+            class="text-dark transition-transform duration-200 ease-in-out"
+            [ngClass]="{ 'rotate-180': panelOpenState }"
+          >
+            {{ icon }}
+          </mat-icon>
+        </span>
+      </span>
+    </div>
+
+    <div *ngIf="panelOpenState">
+      <div class="px-4 py-3 text-sm text-gray-700 font-inter font-normal">
+        {{ description }}
+      </div>
+
+      <div class="flex justify-between px-4 py-3 gap-10">
+        <button
+          mat-raised-button
+          class="flex items-center text-bluePerson font-semibold gap-2"
+          (click)="toggleSubCycles()"
+        >
+          Ciclos
+          <mat-icon
+            class="text-bluePerson transition-transform duration-200 ease-in-out"
+            [ngClass]="{ 'rotate-180': showSubCyclesTable }"
+          >
+            expand_more
+          </mat-icon>
+        </button>
+
+        <div
+          class="flex w-3/4 justify-end pr-10 max-lg:pr-0"
+          *ngIf="showSubCyclesTable"
+        >
+          <span
+            class="text-gray-500 font-semibold w-1/4 text-center max-lg:w-full"
+          >
+            {{ labelLeft }}
+          </span>
+          <span
+            class="text-gray-500 font-semibold w-1/4 text-center max-lg:w-full"
+          >
+            {{ labelRight }}
+          </span>
+        </div>
+      </div>
+
+      <div *ngIf="showSubCyclesTable" class="w-full h-full bg-white px-2">
+        <div class="rounded-xl border overflow-hidden shadow-sm w-full">
+          <div
+            class="flex justify-between px-4 py-2 bg-gray-100 text-sm font-medium text-gray-700"
+          >
+            <span class="w-1/2">
+              {{ titleTable }} ({{ cycles().length }})
+            </span>
+          </div>
+
+          <div
+            *ngFor="let cyclo of cycles(); let i = index"
+            class="flex items-center justify-between px-4 py-2 border-t text-sm hover:bg-gray-50"
+          >
+            <div class="flex text-center w-1/4" *ngIf="controlsMap">
+              <meetime-checkbox
+                [control]="controlsMap[i]"
+                [class]="'bg-green-500'"
+                (changed)="onCheckboxChange(i, $event)"
+              />
+            </div>
+
+            <div class="flex gap-2 items-center w-1/2">
+              <mat-icon
+                [ngClass]="{
+                  'text-red-600': cyclo.priority === 'HIGH',
+                  'text-yellow-500': cyclo.priority === 'MEDIUM',
+                  'text-blue-400': cyclo.priority === 'LOW'
+                }"
+              >
+                {{
+                  cyclo.priority === "LOW" ? "arrow_downward" : "arrow_upward"
+                }}
+              </mat-icon>
+              <span class="truncate">{{ cyclo.name }}</span>
+            </div>
+
+            <div class="text-center w-1/4">
+              {{ cyclo.availableEntities }}
+            </div>
+
+            <div class="text-center w-1/4">
+              {{ getTotalEventos(cyclo) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

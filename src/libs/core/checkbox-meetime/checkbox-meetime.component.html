@@ -1,0 +1,14 @@
+<label class="relative inline-block w-4 h-4">
+  <input
+    type="checkbox"
+    class="appearance-none w-full h-full border border-gray-400 rounded-sm checked:bg-green-500 checked:border-none transition duration-150 peer cursor-pointer"
+    [formControl]="control"
+  />
+  <span
+    class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none text-white text-xs opacity-0 peer-checked:opacity-100"
+  >
+    <mat-icon class="h-5 !flex justify-center items-center text-sm">{{
+      icon
+    }}</mat-icon>
+  </span>
+</label>

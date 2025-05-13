@@ -1,0 +1,12 @@
+<div class="flex">
+  <button
+    class="border cursor-pointer transform transition-transform duration-75 ease-out active:translate-y-[1px] active:scale-98 rounded p-3 font-semibold font-inter text-sm"
+    [style.background]="colorBackground"
+    [style.color]="textColor"
+    (click)="clickButton($event)"
+  >
+    <span class="transform-none">
+      {{ labelButton }}
+    </span>
+  </button>
+</div>
